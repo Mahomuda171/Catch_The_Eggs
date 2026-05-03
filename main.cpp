@@ -4,6 +4,7 @@
 #include <time.h>
 #include <iostream>
 #include <string>
+#include <math.h>
 using namespace std;
 
 // Window dimensions
@@ -13,12 +14,41 @@ const int HEIGHT = 600;
 // Function declarations
 void display();
 void initOpenGL();
-//void drawRect(float x, float y, float width, float height, float r, float g, float b);
-//void drawCircle(float x, float y, float radius, float r, float g, float b);
+void drawRect(float x, float y, float width, float height, float r, float g, float b);
+void drawCircle(float x, float y, float radius, float r, float g, float b);
+//void initEggs();
+//void spawnEgg();
 
-// Display function
+// Draw rectangle
+void drawRect(float x, float y, float width, float height, float r, float g, float b) {
+    glColor3f(r, g, b);
+    glBegin(GL_QUADS);
+    glVertex2f(x, y);
+    glVertex2f(x + width, y);
+    glVertex2f(x + width, y + height);
+    glVertex2f(x, y + height);
+    glEnd();
+}
+
+// Draw circle
+void drawCircle(float x, float y, float radius, float r, float g, float b) {
+    glColor3f(r, g, b);
+    glBegin(GL_TRIANGLE_FAN);
+    for(int i = 0; i < 360; i += 10) {
+        float rad = i * 3.14159f / 180.0f;
+        glVertex2f(x + radius * cos(rad), y + radius * sin(rad));
+    }
+    glEnd();
+}
+
+// Updated display
 void display() {
+    glClearColor(0.5f, 0.7f, 0.9f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+
+    drawRect(350, 30, 100, 25, 0.65f, 0.41f, 0.16f);  // Basket
+    drawCircle(400, 500, 25, 1.0f, 1.0f, 0.0f);        // Chicken body
+
     glutSwapBuffers();
 }
 
